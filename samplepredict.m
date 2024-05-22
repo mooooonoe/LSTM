@@ -157,18 +157,22 @@ epochs = 1000; % increase the number of epochs
 
 % Initialize output array
 predicted = zeros(1, time_steps);
-h = zeros(hidden_size, 1); % initial hidden state
-c = zeros(hidden_size, 1); % initial cell state
+h = zeros(hidden_size, 1); 
+c = zeros(hidden_size, 1); 
 
 % LSTM forward pass through time
 for t = 1:time_steps
     x = x_data(t);
     [h, c, predicted(t)] = lstm_cell(x, h, c, Wf, Wi, Wc, Wo, bf, bi, bc, bo, sigmoid, tanh);
+    
+    if t < time_steps
+        x_data(t+1) = predicted(t);
+    end
 end
 
 % Plot the results
 figure;
-plot(1:time_steps, x_data, 'b', 'LineWidth', 2);
+plot(1:time_steps, x_data(1:time_steps), 'b', 'LineWidth', 2);
 hold on;
 plot(1:time_steps, predicted, 'r--', 'LineWidth', 2);
 legend('Actual', 'Predicted');

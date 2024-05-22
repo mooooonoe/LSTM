@@ -1,0 +1,26 @@
+import numpy as np
+
+# Sigmoid 함수 계산
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Tanh 함수 계산
+def tanh(x):
+    return np.tanh(x)
+
+# 입력 범위와 LUT 크기 정의
+input_range = np.linspace(-4, 4, 256)
+sigmoid_lut = (sigmoid(input_range) * 255).astype(int)
+tanh_lut = ((tanh(input_range) + 1) / 2 * 255).astype(int)
+
+# 결과를 텍스트 파일에 저장
+with open("lut_values.txt", "w") as file:
+    file.write("Sigmoid LUT:\n")
+    for i, val in enumerate(sigmoid_lut):
+        file.write(f"{i}: {val}\n")
+    
+    file.write("\nTanh LUT:\n")
+    for i, val in enumerate(tanh_lut):
+        file.write(f"{i}: {val}\n")
+
+print("LUT values saved to lut_values.txt")
